@@ -1,3 +1,4 @@
+//Store.ts
 import { type MarathonForm } from "../zod/MarathonSchema";
 interface MarathonFormState {
   fname: string;

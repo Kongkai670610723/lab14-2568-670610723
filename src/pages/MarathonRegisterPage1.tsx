@@ -1,3 +1,4 @@
+//MarathonRegisterPage1.tsx
 import { Container, Title, Button, Stack } from "@mantine/core";
 import { useState } from "react";
 import MarathonModal from "../components/MarathonModal";

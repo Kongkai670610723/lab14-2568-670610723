@@ -1,3 +1,4 @@
+//Marathon.ts
 interface MarathonModalProps {
   opened: boolean;
   onClose: () => void;
