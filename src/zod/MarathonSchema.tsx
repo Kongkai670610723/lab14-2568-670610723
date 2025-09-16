@@ -1,4 +1,3 @@
-//MarathonSchema.tsx
 import { z } from "zod";
 
 // Zod Schema
@@ -14,17 +13,32 @@ export const marathonSchema = z
     gender: z.enum(["male", "female"], { message: "Select gender" }),
     agree: z.boolean().default(false),
     email: z.email(),
-    haveCoupon: z.boolean().default(false),
-    couponCode: z.string().optional(),
+    havecoupon: z.boolean().default(false),
+    couponcode: z.string().optional(),
+
+    // password & confirmPassword
+    password: z
+      .string()
+      .min(6, "Password must contain at least 6 characters")
+      .max(12, "Password must not exceed 12 characters"),
+      confirmPassword: z.string(),
   })
   .refine(
     (data) => {
-      if (!data.haveCoupon) return true;
-      return data.couponCode?.trim() === "CMU2025";
+      if (!data.havecoupon) return true;
+      return data.couponcode?.trim() === "CMU2025";
     },
     {
       message: "Invalid coupon code",
       path: ["couponCode"],
     }
+  )
+  .refine(
+    (data) => data.password === data.confirmPassword,
+    {
+      message: "Password does not match",
+      path: ["confirmPassword"],
+    }
   );
+
 export type MarathonForm = z.infer<typeof marathonSchema>;

@@ -1,4 +1,3 @@
-//MarathonFormStore.tsx
 import { create } from "zustand";
 import { type MarathonFormState } from "../libs/Store";
 export const useMarathonFormStore = create<MarathonFormState>((set) => ({
@@ -7,27 +6,34 @@ export const useMarathonFormStore = create<MarathonFormState>((set) => ({
   plan: "funrun",
   gender: "male",
   email: "",
-  setFname: (fname) =>
-    set(() => ({
-      fname: fname,
-    })),
-  setLname: (_lname) =>
-    set(() => ({
-      lname: _lname,
-    })),
-  setPlan: (_plan) =>
-    set(() => ({
-      plan: _plan,
-    })),
-  setGender: (_gender) =>
-    set(() => ({
-      gender: _gender,
-    })),
-  setEmail: (_email) =>
-    set(() => ({
-      email: _email,
-    })),
+  password: "",
+  confirmPassword: "",
+  haveCoupon: false,
+  couponCode: "", 
+
+  setFname: (fname) => set({ fname }),
+  setLname: (lname) => set({ lname }),
+  setPlan: (plan) => set({ plan }),
+  setGender: (gender) => set({ gender }),
+  setEmail: (email) => set({ email }),
+  setPassword: (password) => set({ password }),
+  setConfirmPassword: (confirmPassword) => set({ confirmPassword }),
   // Function ชื่อ discountCupon คำนวณ total ตรงนี้
+  discountCoupon: (coupon?: string): number => {
+    const priceTable = {
+      funrun: 500,
+      mini: 800,
+      half: 1200,
+      full: 1500,
+    } as const;
+
+    const plan = useMarathonFormStore.getState().plan;
+    let price = priceTable[plan];
+
+    if (coupon === "CMU2025") price *= 0.7;
+
+    return price;
+  },
   reset: () =>
     set({
       fname: "",
@@ -35,5 +41,9 @@ export const useMarathonFormStore = create<MarathonFormState>((set) => ({
       plan: "funrun",
       gender: "male",
       email: "",
+      password: "",
+      confirmPassword: "",
+      haveCoupon: false,
+      couponCode: "",
     }),
 }));
